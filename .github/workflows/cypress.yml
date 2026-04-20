@@ -1,0 +1,29 @@
+name: Cypress Tests
+
+on: [push, pull_request]
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create secrets.env.js
+        run: |
+          echo "const secrets = {
+              \"userEmail\": \"${{ secrets.USER_EMAIL }}\",
+              \"userPassword\": \"${{ secrets.USER_PASSWORD }}\",
+              \"invalidUserEmail\": \"${{ secrets.INVALID_USER_EMAIL }}\",
+              \"invalidUserPassword\": \"${{ secrets.INVALID_USER_PASSWORD }}\"
+          }
+          export default secrets;" > secrets.env.js
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+          # We installed cypress locally, so we can use the local install
+          install: true
+          # Start command is not needed if you don't have a dev server dependency
+          # If your app needs to be running, add 'start: npm run dev' here

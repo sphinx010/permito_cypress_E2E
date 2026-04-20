@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+
+# Cypress Reports and Media
+cypress/screenshots/
+cypress/videos/
+cypress/downloads/
+
+# Secrets (DO NOT COMMIT)
+# This file is generated dynamically in CI but contains real secrets locally.
+# Refer to secrets.template.js or GitHub Actions secrets instead.
+secrets.env.js
+.env
+*.env.js
+!secrets.template.js
+
+# System files
+.DS_Store
+Thumbs.db

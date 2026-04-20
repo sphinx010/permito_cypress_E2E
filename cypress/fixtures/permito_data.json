@@ -1,0 +1,13 @@
+{
+  "sign_in_button": ".mx-auto > .flex.gap-2 > .border",
+  "name": "Using fixtures to represent data",
+  "email": "hello@cypress.io",
+  "body": "Fixtures are a great way to mock data for responses to routes",
+  "email_field": ":nth-child(1) > input",
+  "password_field": ":nth-child(2) > div > input",
+  "submit_button": "[type='submit']",
+  "dashboard_url": "/dashboard",
+  "sign_in_page_textual_assertion": "h1",
+  "login_e2e_endpoint": "login",
+  "error_message": "Validation failed"
+}

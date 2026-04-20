@@ -17,15 +17,16 @@ jobs:
           INVALID_USER_EMAIL: ${{ secrets.INVALID_USER_EMAIL }}
           INVALID_USER_PASSWORD: ${{ secrets.INVALID_USER_PASSWORD }}
         run: |
-          cat <<EOF > secrets.env.js
-          const secrets = {
-              "userEmail": "$USER_EMAIL",
-              "userPassword": "$USER_PASSWORD",
-              "invalidUserEmail": "$INVALID_USER_EMAIL",
-              "invalidUserPassword": "$INVALID_USER_PASSWORD"
-          }
-          export default secrets;
-          EOF
+          node -e "
+            const secrets = {
+              userEmail: process.env.USER_EMAIL,
+              userPassword: process.env.USER_PASSWORD,
+              invalidUserEmail: process.env.INVALID_USER_EMAIL,
+              invalidUserPassword: process.env.INVALID_USER_PASSWORD
+            };
+            const content = 'const secrets = ' + JSON.stringify(secrets, null, 4) + ';\n\nexport default secrets;';
+            require('fs').writeFileSync('secrets.env.js', content);
+          "
 
       - name: Cypress run
         uses: cypress-io/github-action@v6

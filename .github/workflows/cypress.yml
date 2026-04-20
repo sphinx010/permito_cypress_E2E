@@ -10,14 +10,22 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Create secrets.env.js
+        shell: bash
+        env:
+          USER_EMAIL: ${{ secrets.USER_EMAIL }}
+          USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
+          INVALID_USER_EMAIL: ${{ secrets.INVALID_USER_EMAIL }}
+          INVALID_USER_PASSWORD: ${{ secrets.INVALID_USER_PASSWORD }}
         run: |
-          echo "const secrets = {
-              \"userEmail\": \"${{ secrets.USER_EMAIL }}\",
-              \"userPassword\": \"${{ secrets.USER_PASSWORD }}\",
-              \"invalidUserEmail\": \"${{ secrets.INVALID_USER_EMAIL }}\",
-              \"invalidUserPassword\": \"${{ secrets.INVALID_USER_PASSWORD }}\"
+          cat <<EOF > secrets.env.js
+          const secrets = {
+              "userEmail": "$USER_EMAIL",
+              "userPassword": "$USER_PASSWORD",
+              "invalidUserEmail": "$INVALID_USER_EMAIL",
+              "invalidUserPassword": "$INVALID_USER_PASSWORD"
           }
-          export default secrets;" > secrets.env.js
+          export default secrets;
+          EOF
 
       - name: Cypress run
         uses: cypress-io/github-action@v6
